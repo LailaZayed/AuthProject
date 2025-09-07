@@ -1,6 +1,7 @@
 import {db} from "@/lib/db";
+import { Hash } from "lucide-react";
 import { NextResponse } from "next/server";
-
+import { hash } from 'bcrypt';
 export async function POST(req: Request){
     try{
         const body = await req.json();
@@ -26,12 +27,12 @@ export async function POST(req: Request){
          if (existingUserByUsername){
             return NextResponse.json({user: null, messag: "an account with this Username already Exists"}, {status: 409})
         }
-
+        const hashedPassword = await hash(password,10);
         const newUser = await db.user.create({
             data:{
                 username,
                 email,
-                password
+                password : hashedPassword
             }
         })
 
