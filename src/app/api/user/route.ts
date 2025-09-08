@@ -13,19 +13,16 @@ export async function POST(req: Request){
         });
 
         if (existingUserByEmail){
-            return NextResponse.json({user: null, messag: "an account with this Email already Exists"}, {status: 409})
+            return NextResponse.json({user: null, message: "an account with this Email already Exists"}, {status: 409})
         }
          //if username exists
         const existingUserByUsername = await db.user.findUnique({
             where:{username:username}
         });
 
-        if (existingUserByEmail){
-            return NextResponse.json({user: null, messag: "an account with this Email already Exists"}, {status: 409})
-        }
 
          if (existingUserByUsername){
-            return NextResponse.json({user: null, messag: "an account with this Username already Exists"}, {status: 409})
+            return NextResponse.json({user: null, message: "an account with this Username already Exists"}, {status: 409})
         }
         const hashedPassword = await hash(password,10);
         const newUser = await db.user.create({
@@ -34,10 +31,17 @@ export async function POST(req: Request){
                 email,
                 password : hashedPassword
             }
-        })
+        });
+        const {password: newUserPassword, ...rest } = newUser;
 
-        return NextResponse.json(body);
+
+        return NextResponse.json({user: rest, message: "User created successfully"}, {status: 201});
     } catch (error){
+         console.error("Error in POST /api/user:", error);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
 
     }
 }
