@@ -17,7 +17,7 @@ import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
 import { signIn } from 'next-auth/react';
 import { useRouter } from "next/navigation";
-
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -45,6 +45,8 @@ const SignInForm = () => {
     });
 
     if (signInData?.error){
+      toast.error("Oops Something went wrong!!");
+
       console.log(signInData.error);
     } else {
       router.refresh();
