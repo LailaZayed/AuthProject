@@ -14,7 +14,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner";
 
@@ -30,7 +29,7 @@ const FormSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
-    message: 'Password do not match',
+    message: 'Passwords do not match',
   });
 
 const SignUpForm = () => {
@@ -45,106 +44,105 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = async(values: z.infer<typeof FormSchema>) => {
-    const response = await fetch('/api/user',{
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const response = await fetch('/api/user', {
       method: 'POST',
-      headers:{
-        'Content-Type':'application/json'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username:values.username,
+        username: values.username,
         email: values.email,
         password: values.password
       })
-    })
+    });
 
-    if (response.ok){
-      router.push('/sign-in')
-      toast.success("Signed Up Succssfully");
-      
+    if (response.ok) {
+      router.push('/sign-in');
+      toast.success("Signed Up Successfully 🎉");
     } else {
-      toast.error("Oops Something Went wrong!!");
+      toast.error("Oops! Something went wrong.");
       console.error('Registration failed');
     }
-      
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className='space-y-2'>
+      <form 
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="w-full space-y-4 bg-pink-50 p-6 rounded-xl shadow-md"
+      >
+        <div className="space-y-3">
           <FormField
             control={form.control}
-            name='username'
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel className="text-pink-700">Username</FormLabel>
                 <FormControl>
-                  <Input placeholder='johndoe' {...field} />
+                  <Input className="border-pink-300 focus:border-pink-500 focus:ring-pink-500" placeholder="johndoe" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-pink-600" />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name='email'
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="text-pink-700">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
+                  <Input className="border-pink-300 focus:border-pink-500 focus:ring-pink-500" placeholder="mail@example.com" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-pink-600" />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="text-pink-700">Password</FormLabel>
                 <FormControl>
                   <Input
-                    type='password'
-                    placeholder='Enter your password'
+                    type="password"
+                    placeholder="Enter your password"
+                    className="border-pink-300 focus:border-pink-500 focus:ring-pink-500"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-pink-600" />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name='confirmPassword'
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Re-Enter your password</FormLabel>
+                <FormLabel className="text-pink-700">Re-enter Password</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='Re-Enter your password'
-                    type='password'
+                    placeholder="Re-enter your password"
+                    type="password"
+                    className="border-pink-300 focus:border-pink-500 focus:ring-pink-500"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-pink-600" />
               </FormItem>
             )}
           />
         </div>
-        <Button className='w-full mt-6' type='submit'>
+        <Button className="w-full mt-6 bg-pink-600 hover:bg-pink-700 text-white" type="submit">
           Sign up
         </Button>
       </form>
-      <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-        or
-      </div>
-      <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
-      <p className='text-center text-sm text-gray-600 mt-2'>
-        If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-in'>
+      <p className="text-center text-sm text-pink-700 mt-3">
+        Already have an account?&nbsp;
+        <Link className="text-pink-600 hover:underline" href="/sign-in">
           Sign in
         </Link>
       </p>
