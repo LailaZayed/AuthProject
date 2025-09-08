@@ -7,8 +7,8 @@ export const authOptions: NextAuthOptions = {
     name: 'Credentials',
 
     credentials: {
-      username: { label: "Username", type: "text", placeholder: "jsmith" },
-      password: { label: "Password", type: "password" }
+      username: { label: "Email", type: "email", placeholder: "ex) something@gmail.com" },
+      password: { label: "Password", type: "password", placeholder: "Please Enter your Password"}
     },
     async authorize(credentials, req) {
       const res = await fetch("/your/endpoint", {
