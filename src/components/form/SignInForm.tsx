@@ -14,7 +14,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
 import { signIn } from 'next-auth/react';
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -46,17 +45,12 @@ const SignInForm = () => {
 
     if (signInData?.error){
       toast.error("Oops Something went wrong!!");
-
       console.log(signInData.error);
     } else {
       router.refresh();
       router.push('/admin');
-      toast.success("Signed In sucssfully");
-      
-
+      toast.success("Signed In successfully");
     }
-    
-
   };
 
   return (
@@ -68,11 +62,15 @@ const SignInForm = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className='text-pink-600'>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
+                  <Input 
+                    placeholder='mail@example.com' 
+                    {...field} 
+                    className='border-pink-400 focus:border-pink-500 focus:ring-pink-500'
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className='text-pink-600'/>
               </FormItem>
             )}
           />
@@ -81,30 +79,27 @@ const SignInForm = () => {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className='text-pink-600'>Password</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
                     placeholder='Enter your password'
                     {...field}
+                    className='border-pink-400 focus:border-pink-500 focus:ring-pink-500'
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className='text-pink-600'/>
               </FormItem>
             )}
           />
         </div>
-        <Button className='w-full mt-6' type='submit'>
+        <Button className='w-full mt-6 bg-pink-500 hover:bg-pink-600 text-white' type='submit'>
           Sign in
         </Button>
       </form>
-      <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-        or
-      </div>
-      <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
-      <p className='text-center text-sm text-gray-600 mt-2'>
+      <p className='text-center text-sm text-pink-600 mt-4'>
         If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-up'>
+        <Link className='text-pink-500 hover:underline' href='/sign-up'>
           Sign up
         </Link>
       </p>
