@@ -123,7 +123,11 @@ const SignUpForm = () => {
                     {...field}
                   />
                 </FormControl>
-                <p className="text-xs text-pink-500">Password must be at least 8 characters</p>
+                   {!field.value && (
+                      <p className="text-xs text-pink-500">
+                       Password must be at least 8 characters       
+                      </p>
+                      )}
                 <FormMessage className="text-pink-600" />
               </FormItem>
             )}
