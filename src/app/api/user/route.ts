@@ -39,7 +39,7 @@ export async function POST(req: Request){
 
 
          if (existingUserByUsername){
-            return NextResponse.json({error: "an account with this Username already Exists"}, {status: 409})
+            return NextResponse.json({error: "Username already Used, choose anotherone"}, {status: 409})
         }
         const hashedPassword = await hash(password,10);
         const newUser = await db.user.create({
