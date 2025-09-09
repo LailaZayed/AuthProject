@@ -66,7 +66,7 @@ const SignUpForm = () => {
       toast.error( data.error || "Oops! Something went wrong.");
       console.error('Registration failed');
 
-          if (data.error?.toLowerCase().includes("email")) {
+      if (data.error?.toLowerCase().includes("email")) {
       form.setError("email", { message: data.error });
     }
     if (data.error?.toLowerCase().includes("username")) {
@@ -123,6 +123,7 @@ const SignUpForm = () => {
                     {...field}
                   />
                 </FormControl>
+                <p className="text-xs text-pink-500">Password must be at least 8 characters</p>
                 <FormMessage className="text-pink-600" />
               </FormItem>
             )}
