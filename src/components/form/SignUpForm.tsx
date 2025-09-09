@@ -57,12 +57,21 @@ const SignUpForm = () => {
       })
     });
 
+    const data = await response.json();
+
     if (response.ok) {
       router.push('/sign-in');
       toast.success("Signed Up Successfully 🎉");
     } else {
-      toast.error("Oops! Something went wrong.");
+      toast.error( data.error || "Oops! Something went wrong.");
       console.error('Registration failed');
+
+          if (data.error?.toLowerCase().includes("email")) {
+      form.setError("email", { message: data.error });
+    }
+    if (data.error?.toLowerCase().includes("username")) {
+      form.setError("username", { message: data.error });
+    }
     }
   };
 
